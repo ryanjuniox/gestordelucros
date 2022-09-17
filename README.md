@@ -1,0 +1,2 @@
+# gestordelucros
+O projeto tem como finalidade prever lucros de qualquer excedente capitalizacional, com base em agrupamentos de dados padronizados. Isso é, por exemplo, prever lucros de um comércio, utilizando como variáveis, gastos de produção, investimentos e insumos, ou até mesmo, percentuais de lucros em cima de um determinado investimento. Este projeto está sendo desenvolvido por alunos do curso de Ciência da Computação, na universidade federal de Viçosa, campus Florestal: Ana Lúcia de Souza - 05084 e Ryan Junio de Oliveira - 05258
