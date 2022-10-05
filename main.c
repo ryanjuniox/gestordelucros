@@ -8,8 +8,8 @@ int main(){
 	
 	//VARIAVEIS DE FUNCIONARIOS
 	int qtde_funcionarios;
-	int salarios_funcionarios[qtde_funcionarios];
-	int custo_total_funcionarios;
+	float salarios_funcionarios[qtde_funcionarios];
+	float custo_total_funcionarios=0;
 	
 	if(flag_teste == 1){
 
@@ -52,7 +52,7 @@ int main(){
 
 	if(qtde_funcionarios > 0){
 		for(int i=0; i<qtde_funcionarios; i++){
-			printf("ESCREVA O CUSTO DO FUNCIONARIO %d: ", i);
+			printf("ESCREVA O CUSTO DO FUNCIONARIO %d: ", i+1);
 			scanf("%f", &salarios_funcionarios[i]);
 		}
 		for(int i=0; i<qtde_funcionarios; i++){
