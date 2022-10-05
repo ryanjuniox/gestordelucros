@@ -65,6 +65,16 @@ int main(){
 	//CALCULO DE CUSTO P/ PRODUTO OU SERVIÇO
 
 	if(tipo_de_venda == "P"){
+
+
+	}
+
+	else if(tipo_de_venda == "S"){
+
+	}
+
+	//EXCENDENTE CAPITALIZACIONAL NÃO DEFINIDO
+	else{
 		int i=0;
 		printf("DEFINA OS CUSTOS, PARA TERMINAR DIGITE -1");
 		while(definicao_variaveis != -1){
@@ -73,14 +83,6 @@ int main(){
 			printf("DEFINA O VALOR GASTO: ");
 			scanf("%f",&definicao_custo[i]);
 		}
-	}
-
-	else if(tipo_de_venda == "S"){
-
-	}
-
-	else{
-		printf("NAO IDENTIFICADA");
 	}
 	
 }
