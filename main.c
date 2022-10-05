@@ -5,6 +5,8 @@ int main(){
 	//VARIAVEIS DE DADOS
 	int flag_teste=1;
 	char empresario, tipo_de_venda, local_de_venda;
+	char definicao_variaveis[99];
+	float definicao_custo[99];
 	
 	//VARIAVEIS DE FUNCIONARIOS
 	int qtde_funcionarios;
@@ -58,6 +60,27 @@ int main(){
 		for(int i=0; i<qtde_funcionarios; i++){
 			custo_total_funcionarios += salarios_funcionarios[i];
 		}
+	}
+	
+	//CALCULO DE CUSTO P/ PRODUTO OU SERVIÇO
+
+	if(tipo_de_venda == "P"){
+		int i=0;
+		printf("DEFINA OS CUSTOS, PARA TERMINAR DIGITE -1");
+		while(definicao_variaveis != -1){
+			printf("ESCREVA O NOME DO CUSTO: ");
+			scanf("%s", &definicao_variaveis[i]);
+			printf("DEFINA O VALOR GASTO: ");
+			scanf("%f",&definicao_custo[i]);
+		}
+	}
+
+	else if(tipo_de_venda == "S"){
+
+	}
+
+	else{
+		printf("NAO IDENTIFICADA");
 	}
 	
 }
