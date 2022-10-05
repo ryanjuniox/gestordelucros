@@ -6,6 +6,7 @@ int main(){
 	char empresario, tipo_de_venda, local_de_venda;
 	
 	int qtde_funcionarios;
+	int salarios_funcionarios[qtde_funcionarios];
 	
 	if(flag_teste == 1){
 		printf("RESPONDA CONFORME SUA REALIDADE! \n");
@@ -40,5 +41,13 @@ int main(){
 	else{
 		printf("RESPOSTA NAO IDENTIFICADA");
 	}
+
+	if(qtde_funcionarios > 0){
+		for(int i=0; i<qtde_funcionarios; i++){
+			printf("ESCREVA O CUSTO DO FUNCIONARIO %d: ", i);
+			scanf("%f", &salarios_funcionarios[i]);
+		}
+	}
+
 	
 }
