@@ -2,87 +2,75 @@
 
 int main(){
 	
-	//VARIAVEIS DE DADOS
-	int flag_teste=1;
-	char empresario, tipo_de_venda, local_de_venda;
-	char definicao_variaveis[99];
-	float definicao_custo[99];
+	//VETORES DE ARMAZENAMENTO
+	int tempo_de_investimento[99] = {0};
+	float porcentagem_de_investimento[99] = {0};
+	float valor_investido[99] = {0};
+	float total_rendimentos[99] = {0};
+	float rendimento_final = 0;
 	
-	//VARIAVEIS DE FUNCIONARIOS
-	int qtde_funcionarios;
-	float salarios_funcionarios[qtde_funcionarios];
-	float custo_total_funcionarios=0;
+	//VARIAVEIS DE AUXILIO
+	float rendimento=0, porcentagem=0, juros=0;
+	int cond_parada;
 	
-	if(flag_teste == 1){
-
-		//RECEPÇÃO DE DADOS DO USUÁRIO
-		printf("RESPONDA CONFORME SUA REALIDADE! \n");
+	int i=0;
 	
-		printf("EMPRESARIO INDIVIDUAL (I) ou TENHO FUNCIONARIOS (F): ");
-		scanf("%c", &empresario);
-		getchar();
+	while(1){
 		
-		printf("oferece PRODUTOS (P) ou SERVICOS (S): ");
-		scanf("%c", &tipo_de_venda);
-		getchar();
+		printf("INVESTIMENTO %d\n", i+1);
 		
-		printf("Oferecidos de forma ONLINE (O) ou FISICO (F): ");
-		scanf("%c", &local_de_venda);
-		getchar();
-	}
-	
-	else{
-		empresario = "I";
-		tipo_de_venda = "P";
-		local_de_venda = "O";
-	}
-	
-	//RECEPÇÃO DE DADOS P/ EMPRESARIOS C/ FUNCIONARIOS
-	if(empresario == "F"){
-			printf("QUANTIDADE FUNCIONARIOS: ");
-			scanf("%d", qtde_funcionarios);
-	}
-	else if(empresario == "I"){
-		printf("NAO POSSUI FUNCIONARIOS");
-	}
-	
-	else{
-		printf("RESPOSTA NAO IDENTIFICADA");
-	}
-
-	//CALCULO DE CUSTO FUNCIONARIO
-
-	if(qtde_funcionarios > 0){
-		for(int i=0; i<qtde_funcionarios; i++){
-			printf("ESCREVA O CUSTO DO FUNCIONARIO %d: ", i+1);
-			scanf("%f", &salarios_funcionarios[i]);
+		printf("TEMPO DE INVESTIMENTO: ");
+		scanf("%d", &tempo_de_investimento[i]);
+		
+		printf("PORCENTAGEM DO INVESTIMENTO: ");
+		scanf("%f", &porcentagem_de_investimento[i]);
+		
+		printf("VALOR INVESTIDO: ");
+		scanf("%f", &valor_investido[i]);
+		
+		porcentagem = (float)(porcentagem_de_investimento[i]/100);
+		
+		for(int j=0; j<tempo_de_investimento[i]; j++){
+			juros = valor_investido[i]*porcentagem;
+			rendimento += juros+valor_investido[i];
 		}
-		for(int i=0; i<qtde_funcionarios; i++){
-			custo_total_funcionarios += salarios_funcionarios[i];
+		
+		total_rendimentos[i] = rendimento;
+		
+		printf("\n");
+		
+		printf("DESEJA CONTINUAR? SIM (1) NAO (0): ");
+		scanf("%d", &cond_parada);
+		
+		printf("\n");
+		
+		if(cond_parada == 1){
+			i++;
+			porcentagem = 0;
+			rendimento = 0;
 		}
+		else{
+			break;
+		}
+		
+	}
+	for(int k=0; k<i+1; k++){
+		rendimento_final += total_rendimentos[k];
 	}
 	
-	//CALCULO DE CUSTO P/ PRODUTO OU SERVIÇO
-
-	if(tipo_de_venda == "P"){
-
-
+	for(int k=0; k<i+1; k++){
+		printf("INVESTIMENTO %d\n", k+1);
+		printf("TEMPO DE INVESTIMENTO: %d\n", tempo_de_investimento[k]);
+		printf("PORCENTAGEM DE INVESTIMENTO: R$ %.2f\n", porcentagem_de_investimento[k]);
+		printf("VALOR INVESTIDO: R$ %.2f\n", valor_investido[k]);
+		printf("RENDIMENTOS TOTAIS: R$ %.2f\n", total_rendimentos[k]);
+		printf("\n");
 	}
-
-	else if(tipo_de_venda == "S"){
-
-	}
-
-	//EXCENDENTE CAPITALIZACIONAL NÃO DEFINIDO
-	else{
-		int i=0;
-		printf("DEFINA OS CUSTOS, PARA TERMINAR DIGITE -1");
-		while(definicao_variaveis != -1){
-			printf("ESCREVA O NOME DO CUSTO: ");
-			scanf("%s", &definicao_variaveis[i]);
-			printf("DEFINA O VALOR GASTO: ");
-			scanf("%f",&definicao_custo[i]);
-		}
-	}
+	
+	printf("**********************************************\n");
+	printf("TOTAL DE TODOS OS RENDIMENTOS: R$ %.2f\n", rendimento_final);
+	printf("**********************************************\n");
+	
+	return 0;
 	
 }
