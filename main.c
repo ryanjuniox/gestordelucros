@@ -2,6 +2,19 @@
 
 int main(){
 	
+	int resposta_sistema;
+
+	//APRESENTAÇÃO DO SISTEMA
+	printf("BEM VINDO AO GESTOR DE LUCROS!\n");
+	printf("\n");
+	printf("De uma maneira geral, neste sistema voce consegue trabalhar com lucros de investimentos e, lucros em produtos ou servicos.\n");
+	printf("\n");
+
+	printf("DESEJA TRABALHAR C/ PRODUTOS/SERVICOS(1) OU INVESTIMENTOS(2): ");
+	scanf("%d", &resposta_sistema);
+
+	if(resposta_sistema == 2){
+		
 	//VETORES DE ARMAZENAMENTO
 	int tempo_de_investimento[99] = {0};
 	float porcentagem_de_investimento[99] = {0};
@@ -15,7 +28,7 @@ int main(){
 	
 	int i=0;
 	
-	while(1){
+	while(1){ //CAPTAÇÃO DOS INVESTIMENTOS
 		
 		printf("INVESTIMENTO %d\n", i+1);
 		
@@ -58,7 +71,7 @@ int main(){
 		rendimento_final += total_rendimentos[k];
 	}
 	
-	for(int k=0; k<i+1; k++){
+	for(int k=0; k<i+1; k++){ //PRINT DE TODOS OS GASTOS
 		printf("INVESTIMENTO %d\n", k+1);
 		printf("TEMPO DE INVESTIMENTO: %d\n", tempo_de_investimento[k]);
 		printf("PORCENTAGEM DE INVESTIMENTO: R$ %.2f\n", porcentagem_de_investimento[k]);
@@ -71,6 +84,16 @@ int main(){
 	printf("TOTAL DE TODOS OS RENDIMENTOS: R$ %.2f\n", rendimento_final);
 	printf("**********************************************\n");
 	
+	}
+
+	else if(resposta_sistema == 1){
+
+	}
+
+	else{
+		printf("RESPOSTA INVALIDA!");
+	}
+
 	return 0;
-	
+
 }
