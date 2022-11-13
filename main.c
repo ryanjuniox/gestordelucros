@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <string.h>
+#include <string.h>
 
 int main(){
 	
 	int resposta_sistema;
 
-	//APRESENTA√á√ÉO DO SISTEMA
+	//APRESENTA«√O DO SISTEMA
 	printf("BEM VINDO AO GESTOR DE LUCROS!\n");
 	printf("\n");
 	printf("De uma maneira geral, neste sistema voce consegue trabalhar com lucros de investimentos e, lucros em produtos ou servicos.\n");
@@ -29,7 +31,7 @@ int main(){
 	
 	int i=0;
 	
-	while(1){ //CAPTA√á√ÉO DOS INVESTIMENTOS
+	while(1){ //CAPTA«√O DOS INVESTIMENTOS
 		
 		printf("INVESTIMENTO %d\n", i+1);
 		
@@ -90,126 +92,128 @@ int main(){
 	else if(resposta_sistema == 1){
 		getchar();
 		
-	// Vari√°veis do controle de gastos : 
-	
-	int i=0, n = 30; // "i" ser√° usada como indice do vetor ValorDeGastos; "n" ser√° o tamanho de tal vetor;
-	char gasto[40]; // "gasto" armazanar√° o nome dos gastos da pessoa/empresa;
-	float valorDoGasto[n]; 
-	char continuar; 
+	int num_gastos;
+	int i, j; 
 	float totalDeGastos = 0; 
 	
-	// soma de todos os gastos financeiros:
+	// pergunta ao usuario quantos gastos ele deseja cadastrar
+	printf("DIGITE A QUANTIDADE DE GASTOS FINANCEIROS QUE VOC  DESEJA CAlCULAR: ");
+	scanf("%d",&num_gastos);
+	getchar();
 	
-	while(1){
-		
-		printf("ESCREVA O NOME DO GASTO FIANCEIRO QUE DESEJA CALCULAR: ");
-		fgets(gasto,sizeof(gasto),stdin);
-		
-		printf("ESCREVA O VALOR DESSE GASTO FINANCEIRO: ");
-		scanf("%f", &valorDoGasto[i]);
-		
-		totalDeGastos += valorDoGasto[i];
-		getchar();
-		i++;
-		
-		//pergunta ao usu√°rio se deseja proseguir com os calculos.
-		//Por "s" entende-se que que sim e por "n" endende-se que n√£o h√° mais gastos a serem contabilizados.
-						
-		printf("DESEJA CONTINUAR? (s/n): ");
-		scanf("%s",&continuar);
-			
-		if(continuar == 'n'){
-			break;
-			
-		}
-		
-		else{
-			while(continuar != 's'  && continuar !='n'){ //ao digitar uma resposta diferente de "s" ou "n" o usu√°rio receber√° uma mensagem de alerta 
-			//e uma nova chance de digitar a resposta certa.
-				printf("INV√ÅLIDO!\n");
-				getchar();
-				
-				printf("DESEJA CONTINUAR? (s/n): ");
-				scanf("%c",&continuar);
-
-			}
-				
-		if(continuar == 'n' ){
-			break;
-		}						
-		}	
-		getchar();
-		
+	char gasto[num_gastos][40]; // "gasto" armazanar· o nome dos gastos da pessoa/empresa;
+	
+	//matriz dos nomes dos gastos
+	for(i = 0; i<num_gastos; i++){
+		printf("ESCREVA O NOME DO GASTO FINANCEIRO QUE DESEJA CALCULAR: ");
+		scanf("%40[^\n]", gasto[i]);
+		getchar();			
 	}
 	
-	// Retorno ao usu√°rio do valor total de seus gastos.
-	
+	//printa a matriz dos nomes dos gastos
 	printf("\n");
+	printf("---------------------GASTOS---------------------\n");
+	for(i = 0; i<num_gastos; i++){
+		printf("%s\n", gasto[i]);	
+	}
+	printf("------------------------------------------------\n");
+	printf("\n");
+	
+	//matriz dos valores dos gastos financeiros 
+	
+	float valorDoGasto[num_gastos][1];
+	float *ponteiro_valor_gasto; // uso de ponteiro
+	ponteiro_valor_gasto = &valorDoGasto[0][0];
+	
+	for(i = 0; i<num_gastos; i++){
+		for(j = 0; j<1;j++){
+			printf("ESCREVA O VALOR DO GASTO EM '%s':", gasto[i]);
+			scanf("%f", &valorDoGasto[i][j]);	
+			totalDeGastos += valorDoGasto[i][j];		
+		}
+	}
+		
+	printf("\n");
+	// printa a matriz ddos valores dos gastos finaceiros
+	printf("---------------VALORES DOS GASTOS---------------\n");
+	for(i = 0; i<num_gastos; i++){
+		for(j = 0; j<1;j++){
+			printf("%.2f\n",ponteiro_valor_gasto[i]); // o ponteiro foi usado para printar os valores dos gastos		
+		}
+	}	
+	printf("------------------------------------------------\n");
+	printf("\n");	
+	//print o total de gastos
 	printf("************************************************\n");
 	printf("TOTAL DOS GASTOS: R$ %.2f\n", totalDeGastos);
 	printf("************************************************\n");
 	
 	
-	
-	// Vari√°veis do controle de recebimentos financieros : 
-	
-	int j=0, m = 30; // "j" ser√° usada como indice do vetor produtoOuServico; "m" ser√° o tamanho de tal vetor;
-	char produtoOuServico[40]; // "produtoOuServico" armazanar√° o nome do produto ou servi√ßo oferecido pela pessoa/empresa;
-	float valor_arrecadado[m]; // armazenar√° o valor de cada produto / servi√ßo;
-	float TotalDaArrecadacao = 0;	
-
+	// VENDA DE PRODUTOS OU PRESTA«√O DE SERVI«OS
 	printf("\n\n");
 	printf("____________________________________________________________________________________\n");
-	printf("  ARRECADA√á√ÉO FINANCEIRA ATRAV√âS DA VENDA DE PRODUTOS OU DA PRESTA√á√ÉO DE SERVI√áOS\n");
+	printf("  ARRECADA«√O FINANCEIRA ATRAV…S DA VENDA DE PRODUTOS OU DA PRESTA«√O DE SERVI«OS\n");
 	printf("____________________________________________________________________________________\n");
 	printf("\n\n");
 
-
+	int num_prod_serv;
+	printf("QUANTOS PRODUTOS/SERVI«OS VOC  DESEJA CALCULAR?");
+	scanf("%d", &num_prod_serv);
 	getchar();
-	//Soma de todos os recebimentos da pessoa/empresa: 
-	while(1){
-		printf("PRODUTO / SERVI√áO: ");
-		fgets(produtoOuServico,sizeof(produtoOuServico),stdin);
-		
-		printf("ESCREVA O VALOR DO PRODUTO VENDIDO OU O VALOR DO SERVI√áO PRESTADO: ");
-		scanf("%f", &valor_arrecadado[j]);
-		
-		TotalDaArrecadacao += valor_arrecadado[j];
-		getchar();
-		i++;		
-				
-		printf("DESEJA CONTINUAR? (s/n): ");
-		scanf("%s",&continuar);
-			
-		if(continuar == 'n'){
-			break;
-			
-		}
-		
-		else{
-			while(continuar != 's' && continuar !='n'){
-				printf("INV√ÅLIDO!\n");
-				getchar();
-				printf("DESEJA CONTINUAR? (s/n): ");
-				scanf("%c",&continuar);
-
-						
-			}	
-		}
-		if(continuar == 'n'){
-			break;
-		}
-		getchar();
-		
+	
+	char produtoOuServico[num_prod_serv][40]; 
+	int quantidade_prod_serv[num_prod_serv][1];
+	
+	printf("\n");
+	//matriz dos nomes dos produtos a serem vendidos ou dos serviÁos prestados
+	for(i = 0; i<num_prod_serv; i++){
+		printf("ESCREVA O NOME DO PRODUTO OU DO SERVI«O PRESTADO: ");
+		scanf("%40[^\n]", produtoOuServico[i]);
+		getchar();				
 	}
-	//Retorna ao usu√°rio o valor total recebido pelos produtos vendidos e/ou pelos servi√ßoes prestados:
+	
+	//printa a matriz dos nomes produtos/serviÁos
+	printf("\n");
+	printf("---------------PRODUTOS/SERVI«OS----------------\n");
+	for(i = 0; i<num_prod_serv; i++){
+		printf("%s\n", produtoOuServico[i]);	
+	}
+	printf("------------------------------------------------\n");
+			
+	float valor_arrecadado[num_prod_serv][1]; // armazenar· o valor de cada produto/serviÁo;
+	float TotalDaArrecadacao = 0;
+	
+	//matriz dos valores dos produtos/serviÁos e matriz das quantidades de cada um
+	printf("\n");
+	for(i = 0; i<num_prod_serv; i++){
+		for(j = 0; j < 1; j++){
+		printf("ESCREVA O VALOR RECEBIDO POR '%s': ", produtoOuServico[i]);
+		scanf("%f", &valor_arrecadado[i][j]);	
+		printf("QUANTAS UNIDADES DESSE PRODUTO FORAM VENDIDAS? OU QUANTAS VEZES VOC  PRESTOU ESSE MESMO SERVI«O?: ");
+		scanf("%d", &quantidade_prod_serv[i][j]);
+		TotalDaArrecadacao += valor_arrecadado[i][j] * quantidade_prod_serv[i][j];
+		}
+	}
+	
+	
+	printf("\n");
+	printf("----------VALORES DOS PRODUTOS/SERVI«OS---------\n");
+    // printa a matriz dos valores dos produtos/serviÁos
+	for(i = 0; i<num_prod_serv; i++){
+		for(j = 0; j<1;j++){
+			printf("%.2f\n",valor_arrecadado[i][j]);			
+		}	
+	}
+	
+	printf("------------------------------------------------\n");	
+	//Retorna ao usu·rio o valor total recebido pelos produtos vendidos e/ou pelos serviÁoes prestados:
 	printf("\n");
 	printf("************************************************\n");
 	printf("RECEBIMENTOS:  R$ %.2f\n", TotalDaArrecadacao);
 	printf("************************************************\n");
-
 	
-	// C√°lculo do lucro final: 
+	
+	// C·lculo do lucro final: 
 	
 	float lucroFinal;
 	
@@ -218,13 +222,15 @@ int main(){
 	printf("************************************************\n");
 	printf("LUCRO FINAL: R$ %.2f\n", lucroFinal);
 	printf("************************************************\n");
-
 	}
+
 
 	else{
 		printf("RESPOSTA INVALIDA!");
 	}
-
+	
+	
 	return 0;
 
-}
+	}
+
