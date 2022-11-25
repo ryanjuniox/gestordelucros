@@ -17,7 +17,7 @@ int main(){
 	
 	int resposta_sistema;
 
-	//APRESENTAÇÃO DO SISTEMA
+	//APRESENTA��O DO SISTEMA
 	printf("BEM VINDO AO GESTOR DE LUCROS!\n");
 	printf("\n");
 	printf("De uma maneira geral, neste sistema voce consegue trabalhar com lucros de investimentos e, lucros em produtos ou servicos.\n");
@@ -39,7 +39,7 @@ int main(){
 	int j, k;
 	int i=0;
 	
-	while(1){ //CAPTAÇÃO DOS INVESTIMENTOS
+	while(1){ //CAPTA��O DOS INVESTIMENTOS
 		
 		printf("NOME: ");
 		scanf("%[^\n]s", &investimento[i].nome);
