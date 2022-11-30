@@ -13,6 +13,15 @@ typedef struct{
 	
 }Investimento;
 
+float calculo_rendimentos(int tempo_de_investimento, float valor_do_investimento, float porcentagem_de_investimento){
+	float porcentagem=0, juros=0, rendimento=0;
+	porcentagem = (float)(porcentagem_de_investimento/100);
+	for(int i=0; i<tempo_de_investimento; i++){
+		juros = valor_do_investimento * porcentagem;
+		rendimento += juros+valor_do_investimento;
+	}
+}
+
 int main(){
 	
 	int resposta_sistema;
@@ -54,14 +63,7 @@ int main(){
 		printf("VALOR INVESTIDO: ");
 		scanf("%f", &investimento[i].valor_inv);
 		
-		porcentagem = (float)(investimento[i].porcentagem_inv/100);
-		
-		for(j=0; j<investimento[i].tempo_inv; j++){
-			juros = investimento[i].valor_inv*porcentagem;
-			rendimento += juros+investimento[i].valor_inv;
-		}
-		
-		investimento[i].total_rendimentos = rendimento;
+		investimento[i].total_rendimentos = calculo_rendimentos(investimento[i].tempo_inv, investimento[i].valor_inv, investimento[i].porcentagem_inv);
 		
 		printf("\n");
 		
