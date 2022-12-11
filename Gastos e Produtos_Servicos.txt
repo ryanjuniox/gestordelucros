@@ -1,0 +1,13 @@
+Gastos:
+
+    mercado: R$ 150,00
+    farmacia: R$ 13,00
+    carteirinha ru: R$ 100,00
+
+Produtos/Serviços:
+
+    venda de adesivos: 25 x R$ 20,00
+
+Lucro Final: R$ 237,00
+
+

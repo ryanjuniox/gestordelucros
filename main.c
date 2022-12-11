@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include<locale.h>
 
 typedef struct{
 	
@@ -13,20 +14,176 @@ typedef struct{
 	
 }Investimento;
 
+//struct para os gastos financeiros;
+typedef struct Gasto tipo_gasto;
+struct Gasto{
+	char nome_do_gasto[40];
+	float valor_do_gasto;
+};
+	 
+//struct para produtos e servicos;
+typedef struct produtos_servicos tipo_produtos_servicos;
+struct produtos_servicos{
+	char nome_porduto_servico[40];
+	float valorProd_ser;
+	int quant_prod_serv;
+};
+
+	// FUNÇÕES QUE SERÃO USADAS EM GASTOS: 
+void imprime_nome_gastos(tipo_gasto *gastos, int num_gastos){
+	int i;
+	printf("\n");
+	printf("---------------------GASTOS---------------------\n");
+	for(i = 0; i<num_gastos; i++){
+		printf("%s\n", gastos[i].nome_do_gasto);	
+	}
+	printf("------------------------------------------------\n");
+	printf("\n");
+	
+}
+
+void imprime_valores(tipo_gasto *gastos, int num_gastos){
+	int i;
+	printf("\n");
+	printf("---------------VALORES DOS GASTOS---------------\n");
+	for(i = 0; i<num_gastos; i++){
+		printf("%.2f\n",gastos[i].valor_do_gasto); 		
+	}	
+	printf("------------------------------------------------\n");
+	printf("\n");
+	
+}
+
+
+void imprimeTotalDeGastos(float totalDeGastos){
+	printf("************************************************\n");
+	printf("TOTAL DOS GASTOS: R$ %.2f\n", totalDeGastos);
+	printf("************************************************\n");	
+}
+ 
+void preenche_gastos(tipo_gasto *gastos, int num_gastos, float *totalDeGastos){ 
+	int i;
+	for(i = 0; i<num_gastos; i++){			
+		printf("ESCREVA O NOME DO GASTO FINANCEIRO QUE DESEJA CALCULAR: ");
+		scanf("%40[^\n]", gastos[i].nome_do_gasto);
+		getchar();
+	}
+	imprime_nome_gastos(gastos, num_gastos);
+	
+	for(i = 0; i<num_gastos; i++){
+		printf("ESCREVA O VALOR DO GASTO EM '%s':", gastos[i].nome_do_gasto);
+		scanf("%f", &gastos[i].valor_do_gasto);
+		*totalDeGastos += gastos[i].valor_do_gasto;
+	}
+
+}
+
+	//FUNÇOES USADAS EM PRODUTOS E SERVIÇOS:
+void imprime_nome_prodserv(tipo_produtos_servicos *produtoOuServico, int num_prod_serv){
+	printf("\n");
+	printf("---------------PRODUTOS/SERVIÇOS----------------\n");
+	int i;
+	for(i = 0; i<num_prod_serv; i++){
+		printf("%s\n", produtoOuServico[i].nome_porduto_servico);	
+	}
+	printf("------------------------------------------------\n");	
+	printf("\n");	
+}
+
+void preenche_prod_serv(tipo_produtos_servicos *produtoOuServico, int num_prod_serv, float *TotalDaArrecadacao){
+	int i;
+	for(i=0; i<num_prod_serv; i++){
+		printf("ESCREVA O NOME DO PRODUTO OU DO SERVIÇO PRESTADO: ");
+		scanf("%40[^\n]", produtoOuServico[i].nome_porduto_servico);
+		getchar();				
+	}
+	
+	imprime_nome_prodserv(produtoOuServico,num_prod_serv);
+
+	for(i = 0; i<num_prod_serv; i++){
+		printf("ESCREVA O VALOR (UNITARIO) RECEBIDO POR '%s': ", produtoOuServico[i].nome_porduto_servico);
+		scanf("%f", &produtoOuServico[i].valorProd_ser);	
+		printf("QUANTAS UNIDADES DESSE PRODUTO FORAM VENDIDAS? OU QUANTAS VEZES VOCÊ PRESTOU ESSE MESMO SERVIÇOS?: ");
+		scanf("%d", &produtoOuServico[i].quant_prod_serv);
+		*TotalDaArrecadacao += produtoOuServico[i].valorProd_ser * produtoOuServico[i].quant_prod_serv;
+	}
+}
+
+ void imprime_valoresProd_serv(tipo_produtos_servicos *produtoOuServico, int num_prod_serv){
+ 	int i;
+	printf("\n");
+	printf("----------VALORES DOS PRODUTOS/SERVIÇOS---------\n");
+	for(i = 0; i<num_prod_serv; i++){
+		printf("%.2f\n",produtoOuServico[i].valorProd_ser);				
+	}
+	printf("------------------------------------------------\n");	
+ }
+
+void imprime_recebimentos(float TotalDaArrecadacao){
+	//Retorna ao usuário o valor total recebido pelos produtos vendidos e/ou pelos serviços prestados:
+	printf("\n");
+	printf("************************************************\n");
+	printf("RECEBIMENTOS:  R$ %.2f\n", TotalDaArrecadacao);
+	printf("************************************************\n");
+}
+
+float imprime_lucro_final(float TotalDaArrecadacao, float totalDeGastos){
+	// calcula e retorna ao usuario o seu lucro final
+	float lucroFinal;
+	lucroFinal = TotalDaArrecadacao - totalDeGastos;
+	printf("\n\n");
+	printf("************************************************\n");
+	printf("LUCRO FINAL: R$ %.2f\n", lucroFinal);
+	printf("************************************************\n");
+
+	return lucroFinal;
+}
+	//função que escreverá em um arquivo quais foram os gastos e seus respectivos valores; quais foram os produtos/serviços, seus respectivos valores
+	// e quantidades; e o lucro final
+void imprimirArquivo(tipo_gasto *gastos, tipo_produtos_servicos *produtoOuServico, int num_gastos, int num_prod_serv, float lucroFinal){
+	FILE *arquivo;
+	int i;
+	if((arquivo = fopen("Gastos e Produtos_Servicos.txt","a+"))==NULL){
+		printf("Não foi possível abrir o arquivo");
+		return;
+	}
+	else{
+		fprintf(arquivo,"Gastos:\n");
+		fprintf(arquivo,"\n");
+		for(i=0;i<num_gastos;i++){
+			fprintf(arquivo, "    %s: R$ %.2f\n",gastos[i].nome_do_gasto, gastos[i].valor_do_gasto);
+		}
+		fprintf(arquivo, "\n");
+
+		fprintf(arquivo,"Produtos/Serviços:\n");
+		fprintf(arquivo,"\n");
+		for(i=0;i<num_prod_serv;i++){
+			fprintf(arquivo, "    %s: %d x R$ %.2f\n",produtoOuServico[i].nome_porduto_servico,produtoOuServico[i].quant_prod_serv,produtoOuServico[i].valorProd_ser);
+		}
+		fprintf(arquivo, "\n");
+
+		fprintf(arquivo, "Lucro Final: R$ %.2f\n", lucroFinal);
+		fprintf(arquivo,"\n\n");
+	}
+	fclose(arquivo);
+}
+
+
 float calculo_rendimentos(int tempo_de_investimento, float valor_do_investimento, float porcentagem_de_investimento){
 	float porcentagem=0, juros=0, rendimento=0;
+	int i;
 	porcentagem = (float)(porcentagem_de_investimento/100);
-	for(int i=0; i<tempo_de_investimento; i++){
+	for(i=0; i<tempo_de_investimento; i++){
 		juros = valor_do_investimento * porcentagem;
 		rendimento += juros+valor_do_investimento;
 	}
 }
 
 int main(){
-	
+	setlocale(LC_ALL, "Portuguese");
 	int resposta_sistema;
 
-	//APRESENTAï¿½ï¿½O DO SISTEMA
+	//APRESENTA??O DO SISTEMA
 	printf("BEM VINDO AO GESTOR DE LUCROS!\n");
 	printf("\n");
 	printf("De uma maneira geral, neste sistema voce consegue trabalhar com lucros de investimentos e, lucros em produtos ou servicos.\n");
@@ -48,7 +205,7 @@ int main(){
 	int j, k;
 	int i=0;
 	
-	while(1){ //CAPTAï¿½ï¿½O DOS INVESTIMENTOS
+	while(1){ //CAPTA??O DOS INVESTIMENTOS
 		
 		printf("NOME: ");
 		scanf("%[^\n]s", &investimento[i].nome);
@@ -104,138 +261,54 @@ int main(){
 	else if(resposta_sistema == 1){
 
 		int num_gastos;
-		int i, j; 
 		float totalDeGastos = 0; 
 		
 		// pergunta ao usuario quantos gastos ele deseja cadastrar
-		printf("DIGITE A QUANTIDADE DE GASTOS FINANCEIROS QUE VOCÃŠ DESEJA CAlCULAR: ");
+		printf("DIGITE A QUANTIDADE DE GASTOS FINANCEIROS QUE VOCÊ DESEJA CALCULAR: ");
 		scanf("%d",&num_gastos);
 		getchar();
 		
-		char gasto[num_gastos][40]; // "gasto" armazanarÃ¡ o nome dos gastos da pessoa/empresa;
 		
-		//matriz dos nomes dos gastos
-		for(i = 0; i<num_gastos; i++){
-			printf("ESCREVA O NOME DO GASTO FINANCEIRO QUE DESEJA CALCULAR: ");
-			scanf("%40[^\n]", gasto[i]);
-			getchar();			
-		}
+		tipo_gasto gastos[num_gastos];  
 		
-		//printa a matriz dos nomes dos gastos
-		printf("\n");
-		printf("---------------------GASTOS---------------------\n");
-		for(i = 0; i<num_gastos; i++){
-			printf("%s\n", gasto[i]);	
-		}
-		printf("------------------------------------------------\n");
-		printf("\n");
+		//chamando a funcao que preenche a struct Gasto e calcula o tatao dos gastos
+		preenche_gastos(gastos, num_gastos, &totalDeGastos);
+		// chamando a função que  imprime os valores dos gastos 
+		imprime_valores(gastos, num_gastos);
+		//chamdo a funcao que imprime o total dos gastos
+		imprimeTotalDeGastos(totalDeGastos);		
 		
-		//matriz dos valores dos gastos financeiros 
-		
-		float valorDoGasto[num_gastos][1];
-		float *ponteiro_valor_gasto; // uso de ponteiro
-		ponteiro_valor_gasto = &valorDoGasto[0][0];
-		
-		for(i = 0; i<num_gastos; i++){
-			for(j = 0; j<1;j++){
-				printf("ESCREVA O VALOR DO GASTO EM '%s':", gasto[i]);
-				scanf("%f", &valorDoGasto[i][j]);	
-				totalDeGastos += valorDoGasto[i][j];		
-			}
-		}
-			
-		printf("\n");
-		// printa a matriz ddos valores dos gastos finaceiros
-		printf("---------------VALORES DOS GASTOS---------------\n");
-		for(i = 0; i<num_gastos; i++){
-			for(j = 0; j<1;j++){
-				printf("%.2f\n",ponteiro_valor_gasto[i]); // o ponteiro foi usado para printar os valores dos gastos		
-			}
-		}	
-		printf("------------------------------------------------\n");
-		printf("\n");	
-		//print o total de gastos
-		printf("************************************************\n");
-		printf("TOTAL DOS GASTOS: R$ %.2f\n", totalDeGastos);
-		printf("************************************************\n");
-		
-		
-		// VENDA DE PRODUTOS OU PRESTAÃ‡ÃƒO DE SERVIÃ‡OS
+		// VENDA DE PRODUTOS OU PRESTACAO DE SERVICOS
 		printf("\n\n");
 		printf("____________________________________________________________________________________\n");
-		printf("  ARRECADAÃ‡ÃƒO FINANCEIRA ATRAVÃ‰S DA VENDA DE PRODUTOS OU DA PRESTAÃ‡ÃƒO DE SERVIÃ‡OS\n");
+		printf("  ARRECADAÇÃO FINANCEIRA ATRAVÉS DA VENDA DE PRODUTOS OU DA PRESTAÇÃO DE SERVIÇOS\n");
 		printf("____________________________________________________________________________________\n");
 		printf("\n\n");
 	
 		int num_prod_serv;
-		printf("QUANTOS PRODUTOS/SERVIÃ‡OS VOCÃŠ DESEJA CALCULAR?");
+		printf("QUANTOS PRODUTOS/SERVIÇOS VOCÊ DESEJA CALCULAR?");
 		scanf("%d", &num_prod_serv);
 		getchar();
 		
-		char produtoOuServico[num_prod_serv][40]; 
-		int quantidade_prod_serv[num_prod_serv][1];
-		
-		printf("\n");
-		//matriz dos nomes dos produtos a serem vendidos ou dos serviÃ§os prestados
-		for(i = 0; i<num_prod_serv; i++){
-			printf("ESCREVA O NOME DO PRODUTO OU DO SERVIÃ‡O PRESTADO: ");
-			scanf("%40[^\n]", produtoOuServico[i]);
-			getchar();				
-		}
-		
-		//printa a matriz dos nomes produtos/serviÃ§os
-		printf("\n");
-		printf("---------------PRODUTOS/SERVIÃ‡OS----------------\n");
-		for(i = 0; i<num_prod_serv; i++){
-			printf("%s\n", produtoOuServico[i]);	
-		}
-		printf("------------------------------------------------\n");
-				
-		float valor_arrecadado[num_prod_serv][1]; // armazenarÃ¡ o valor de cada produto/serviÃ§o;
-		float TotalDaArrecadacao = 0;
-		
-		//matriz dos valores dos produtos/serviÃ§os e matriz das quantidades de cada um
-		printf("\n");
-		for(i = 0; i<num_prod_serv; i++){
-			for(j = 0; j < 1; j++){
-			printf("ESCREVA O VALOR RECEBIDO POR '%s': ", produtoOuServico[i]);
-			scanf("%f", &valor_arrecadado[i][j]);	
-			printf("QUANTAS UNIDADES DESSE PRODUTO FORAM VENDIDAS? OU QUANTAS VEZES VOCÃŠ PRESTOU ESSE MESMO SERVIÃ‡O?: ");
-			scanf("%d", &quantidade_prod_serv[i][j]);
-			TotalDaArrecadacao += valor_arrecadado[i][j] * quantidade_prod_serv[i][j];
-			}
-		}
-		
-		
-		printf("\n");
-		printf("----------VALORES DOS PRODUTOS/SERVIÃ‡OS---------\n");
-	    // printa a matriz dos valores dos produtos/serviÃ§os
-		for(i = 0; i<num_prod_serv; i++){
-			for(j = 0; j<1;j++){
-				printf("%.2f\n",valor_arrecadado[i][j]);			
-			}	
-		}
-		
-		printf("------------------------------------------------\n");	
-		//Retorna ao usuÃ¡rio o valor total recebido pelos produtos vendidos e/ou pelos serviÃ§oes prestados:
-		printf("\n");
-		printf("************************************************\n");
-		printf("RECEBIMENTOS:  R$ %.2f\n", TotalDaArrecadacao);
-		printf("************************************************\n");
-		
-		
-		// CÃ¡lculo do lucro final: 
-		
-		float lucroFinal;
-		
-		lucroFinal = TotalDaArrecadacao - totalDeGastos;
-		printf("\n\n");
-		printf("************************************************\n");
-		printf("LUCRO FINAL: R$ %.2f\n", lucroFinal);
-		printf("************************************************\n");
-		}
-	
-	
+		tipo_produtos_servicos produtoOuServico[num_prod_serv]; 
+		float TotalDaArrecadacao = 0;	
+		float lucro;
+			
+		//chamando funcao que preenche a struct de produtos e servicos, printa seus nomes e calcula o total arrecadado
+	 	preenche_prod_serv(produtoOuServico, num_prod_serv, &TotalDaArrecadacao);
+		//chamando funcao que imprime o valor individual de cada produto ou servico
+		imprime_valoresProd_serv(produtoOuServico,num_prod_serv);
+		// chamando a funcao que imprime o total dos recebimentos(receita gerada nas vendas ou prestacao de servicos)
+		imprime_recebimentos(TotalDaArrecadacao);
+		// chamando a funcao que calcula o lucro final
+		lucro = imprime_lucro_final(TotalDaArrecadacao, totalDeGastos);
+
+		//chamando a funcao que imprime os gastos, produtos/servicos e o lucro final no arquivo "Gastos e Produtos_Servicos.txt"
+		imprimirArquivo(gastos, produtoOuServico, num_gastos, num_prod_serv, lucro);
+
+
+
+	}
 	else{
 		printf("RESPOSTA INVALIDA!");
 	}
@@ -243,4 +316,3 @@ int main(){
 	return 0;
 
 	}
-
